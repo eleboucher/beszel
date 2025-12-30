@@ -20,7 +20,11 @@ FROM alpine:3.22
 
 COPY --from=builder /agent /agent
 
-RUN apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/edge/testing igt-gpu-tools smartmontools
+# Install gsl from edge/community (required by igt-gpu-tools) and igt-gpu-tools from edge/testing
+RUN apk add --no-cache \
+    -X https://dl-cdn.alpinelinux.org/alpine/edge/community gsl \
+    -X https://dl-cdn.alpinelinux.org/alpine/edge/testing igt-gpu-tools \
+    smartmontools
 
 # Ensure data persistence across container recreations
 VOLUME ["/var/lib/beszel-agent"]
